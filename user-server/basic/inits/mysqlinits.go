@@ -5,12 +5,13 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"user-server/basic/config"
 	"user-server/basic/global"
 )
 
 func InitMysql() {
-
-	dsn := "root:root@tcp(127.0.0.1:3306)/video?charset=utf8mb4&parseTime=True&loc=Local"
+	data := config.Appconf.Mysql
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", data.User, data.Password, data.Host, data.Port, data.Database)
 	var err error
 	global.DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
