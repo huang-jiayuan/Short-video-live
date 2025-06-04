@@ -19,7 +19,18 @@ message SendsmsRequest {
 message SendsmsResponse {
 
 }
+//登录功能
+message LoginRequest {
+  string mobile = 1;
+  string password =2;
+  string sendsms =3;
+}
+
+message LoginResponse {
+  int64 Id =1;
+}
 service User {
+  rpc Login(LoginRequest) returns(LoginResponse);
   rpc Ping(Request) returns(Response);
   rpc Sendsms(SendsmsRequest) returns(SendsmsResponse);
 }
