@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package user;
+option go_package="/";
+
+message Request {
+  string ping = 1;
+}
+
+message Response {
+  string pong = 1;
+}
+//短信
+message SendsmsRequest {
+  string mobile = 1;
+  string score =2;
+}
+
+message SendsmsResponse {
+
+}
+service User {
+  rpc Ping(Request) returns(Response);
+  rpc Sendsms(SendsmsRequest) returns(SendsmsResponse);
+}
