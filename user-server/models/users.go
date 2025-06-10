@@ -3,6 +3,8 @@ package models
 import (
 	"gorm.io/gorm"
 	"time"
+	"user-server/basic/global"
+	__ "user-server/proto"
 )
 
 type VideoUser struct {
@@ -30,4 +32,54 @@ type VideoUser struct {
 	CreatedAt     time.Time      `gorm:"column:created_at;type:datetime(3);default:CURRENT_TIMESTAMP(3);" json:"created_at"`
 	UpdatedAt     time.Time      `gorm:"column:updated_at;type:datetime(3);default:CURRENT_TIMESTAMP(3);" json:"updated_at"`
 	DeletedAt     gorm.DeletedAt `gorm:"column:deleted_at;type:datetime(3);default:NULL;" json:"deleted_at"`
+}
+
+func (u *VideoUser) TableName() string {
+	return "video_user"
+}
+
+// todo:根据手机号查询用户信息
+func (u *VideoUser) FindUserByMobile(mobile string) (*VideoUser, error) {
+	err := global.DB.Where("mobile=?", mobile).Find(&u).Error
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
+}
+
+// todo:用户注册
+func (u *VideoUser) CreateUser(mobile string, UserCode string) (*VideoUser, error) {
+	user := &VideoUser{
+		Mobile:   mobile,
+		UserCode: UserCode,
+	}
+	err := global.DB.Create(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+// todo:根据用户id查询用户信息
+func (u *VideoUser) FindUserById(id int64) (user []*VideoUser, err error) {
+	err = global.DB.Where("id=?", id).Find(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+// todo:完善用户信息/修改用户信息
+func (u *VideoUser) ImproveUserInfo(in *__.ImproveUserInfoRequest) error {
+	return global.DB.Where("id=?", in.UserId).Updates(&VideoUser{
+		Name:          in.Name,
+		NickName:      in.NickName,
+		UserCode:      in.UserCode,
+		Signature:     in.SignaTure,
+		Sex:           in.Sex,
+		Constellation: in.Constellation,
+		AvatorFileId:  int32(in.AvatorFileId),
+		Mobile:        in.Mobile,
+		Age:           int32(in.Age),
+	}).Error
 }

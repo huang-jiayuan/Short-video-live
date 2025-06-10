@@ -10,27 +10,155 @@ message Request {
 message Response {
   string pong = 1;
 }
-//短信
+//todo：短信
 message SendsmsRequest {
-  string mobile = 1;
-  string score =2;
+  string mobile = 1; //手机号
+  string source = 2; //来源
 }
 
 message SendsmsResponse {
-
-}
-//登录功能
-message LoginRequest {
-  string mobile = 1;
-  string password =2;
-  string sendsms =3;
+  string greet = 1;
 }
 
-message LoginResponse {
-  int64 Id =1;
+//todo:登录注册一体化
+message UserLoginRequest{
+  string mobile = 1; //手机号
+  int64  code   = 2; //验证码
 }
+message UserLoginResponse{
+  int64 greet = 1;
+}
+
+//todo:个人中心
+message UserCenterRequest{
+  int64 userId = 1;
+}
+message UserCenterResponse{
+  repeated UserCenter list = 1;
+}
+message UserCenter{
+  string  name          = 1;    //名称
+  string  nickName      = 2;    //昵称
+  string  userCode      = 3;    //编号
+  string  signature     = 4;    //签名
+  string  sex           = 5;    //性别
+  string  constellation = 6;    //星座
+  float   attendCount   = 7;    //关注数
+  float   fansCount     = 8;    //粉丝数
+  float   zanCount      = 9;    //点赞数
+  int64   avatarFileId  = 10;   //头像关联id
+  string  authrityInfo  = 11;   //认证信息
+  string  mobile        = 12;   //手机号
+  string  realNameAuth  = 13;   //实名认证状态
+  int64   age           = 14;   //年龄
+  string  authrityType  = 15;   //认证类型
+  string  title         = 16;   //作品标题
+  string  desc          = 17;   //作品描述
+}
+
+//todo:完善用户信息//修改用户信息
+message ImproveUserInfoRequest{
+  string name          = 1; //名称
+  string nickName      = 2; //昵称
+  string userCode      = 3; //编号
+  string signaTure     = 4; //签名
+  string sex           = 5; //性别
+  string constellation = 6; //星座
+  int64  avatorFileId  = 7; //用户头像id
+  string mobile        = 8; //手机号
+  int64  age           = 9; //年龄
+  int64  userId        = 10;
+}
+
+message ImproveUserInfoResponse{
+  string greet = 1;
+}
+//todo:作品展示
+message VideoWorksListRequest{
+  int64 page = 1;
+  int64 pageSize = 2;
+}
+message VideoWorksListResponse{
+  repeated VideoWorksList list = 1;
+}
+message VideoWorksList{
+  string  Title          = 1;                    // 标题
+  string  Desc           = 2;                    // 描述
+  int32   MusicId        = 3;                    // 音乐
+  string  IpAddress      = 4;                    // IP地址
+  int32   BrowseCount    = 5;                    // 浏览量
+}
+//todo:点赞
+message UserLikesRequest{
+  int64 userId  = 1;
+  int64 workId = 2;
+}
+message UserLikesResponse{
+  string greet = 1;
+}
+//todo:取消点赞
+message CancelUserLikesRequest{
+  int64 userId  = 1;
+  int64 workId = 2;
+}
+message CancelUserLikesResponse{
+  string greet = 1;
+}
+//todo:作品发布
+message AddVideoWorksRequest{
+  string title          = 1;  //标题
+  string desc           = 2;  //描述
+  int64  musicId        = 3;  //选择音乐
+  string workType       = 4;  //作品类型
+  string workPermission = 5;  //作品权限
+  int64  userId         = 6;
+  string ipAddress      = 7;  //ip地址
+}
+message AddVideoWorksResponse{
+  string greet = 1;
+}
+//todo:作品评论
+message CreateVideoWorksCommentRequest{
+  int64   WorkId  = 1;  //作品id
+  int64   UserId  = 2;  //用户id
+  string  Content = 3;  //评论内容
+  int64   Tag     = 4;  //评论标签表
+  int64   Pid     = 5;  //父级id
+}
+
+message CreateVideoWorksCommentResponse{
+  string greet = 1;
+}
+//todo:作品详情
+message WorksItemRequest{
+  int64 workId = 1;
+}
+message WorksItemResponse{
+  repeated WorksItem item = 1;
+}
+message WorksItem{
+  string  Title          = 1;   // 标题
+  string  Desc           = 2;   // 描述
+  int32   MusicId        = 3;   // 选择音乐
+  string  IpAddress      = 4;   // IP地址
+  int32   LikeCount      = 5;   // 喜欢数量
+  int32   CommentCount   = 6;   // 评论数
+  int32   ShareCount     = 7;   // 分享数
+  int32   CollectCount   = 8;   // 收藏数
+  int32   BrowseCount    = 9;   // 浏览量
+  int32   TopicId        = 10;  // 新增：关联话题
+}
+
 service User {
-  rpc Login(LoginRequest) returns(LoginResponse);
   rpc Ping(Request) returns(Response);
   rpc Sendsms(SendsmsRequest) returns(SendsmsResponse);
+  rpc UserLogin(UserLoginRequest) returns(UserLoginResponse);
+  rpc UserCenter(UserCenterRequest) returns(UserCenterResponse);
+  rpc ImproveUserInfo(ImproveUserInfoRequest) returns(ImproveUserInfoResponse);
+  rpc VideoWorksList(VideoWorksListRequest) returns(VideoWorksListResponse);
+  rpc UserLikes(UserLikesRequest) returns(UserLikesResponse);
+  rpc CancelUserLikes(CancelUserLikesRequest) returns(CancelUserLikesResponse);
+  rpc AddVideoWorks(AddVideoWorksRequest) returns (AddVideoWorksResponse);
+  rpc CreateVideoWorksComment(CreateVideoWorksCommentRequest) returns (CreateVideoWorksCommentResponse);
+  rpc WorksItem(WorksItemRequest) returns (WorksItemResponse);
 }

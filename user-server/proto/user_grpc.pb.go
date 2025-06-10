@@ -19,18 +19,32 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	User_Login_FullMethodName   = "/user.User/Login"
-	User_Ping_FullMethodName    = "/user.User/Ping"
-	User_Sendsms_FullMethodName = "/user.User/Sendsms"
+	User_Ping_FullMethodName                    = "/user.User/Ping"
+	User_Sendsms_FullMethodName                 = "/user.User/Sendsms"
+	User_UserLogin_FullMethodName               = "/user.User/UserLogin"
+	User_UserCenter_FullMethodName              = "/user.User/UserCenter"
+	User_ImproveUserInfo_FullMethodName         = "/user.User/ImproveUserInfo"
+	User_VideoWorksList_FullMethodName          = "/user.User/VideoWorksList"
+	User_UserLikes_FullMethodName               = "/user.User/UserLikes"
+	User_CancelUserLikes_FullMethodName         = "/user.User/CancelUserLikes"
+	User_AddVideoWorks_FullMethodName           = "/user.User/AddVideoWorks"
+	User_CreateVideoWorksComment_FullMethodName = "/user.User/CreateVideoWorksComment"
 )
 
 // UserClient is the client API for User service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 	Sendsms(ctx context.Context, in *SendsmsRequest, opts ...grpc.CallOption) (*SendsmsResponse, error)
+	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
+	UserCenter(ctx context.Context, in *UserCenterRequest, opts ...grpc.CallOption) (*UserCenterResponse, error)
+	ImproveUserInfo(ctx context.Context, in *ImproveUserInfoRequest, opts ...grpc.CallOption) (*ImproveUserInfoResponse, error)
+	VideoWorksList(ctx context.Context, in *VideoWorksListRequest, opts ...grpc.CallOption) (*VideoWorksListResponse, error)
+	UserLikes(ctx context.Context, in *UserLikesRequest, opts ...grpc.CallOption) (*UserLikesResponse, error)
+	CancelUserLikes(ctx context.Context, in *CancelUserLikesRequest, opts ...grpc.CallOption) (*CancelUserLikesResponse, error)
+	AddVideoWorks(ctx context.Context, in *AddVideoWorksRequest, opts ...grpc.CallOption) (*AddVideoWorksResponse, error)
+	CreateVideoWorksComment(ctx context.Context, in *CreateVideoWorksCommentRequest, opts ...grpc.CallOption) (*CreateVideoWorksCommentResponse, error)
 }
 
 type userClient struct {
@@ -39,16 +53,6 @@ type userClient struct {
 
 func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
-}
-
-func (c *userClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, User_Login_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *userClient) Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
@@ -71,13 +75,100 @@ func (c *userClient) Sendsms(ctx context.Context, in *SendsmsRequest, opts ...gr
 	return out, nil
 }
 
+func (c *userClient) UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserLoginResponse)
+	err := c.cc.Invoke(ctx, User_UserLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UserCenter(ctx context.Context, in *UserCenterRequest, opts ...grpc.CallOption) (*UserCenterResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserCenterResponse)
+	err := c.cc.Invoke(ctx, User_UserCenter_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ImproveUserInfo(ctx context.Context, in *ImproveUserInfoRequest, opts ...grpc.CallOption) (*ImproveUserInfoResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ImproveUserInfoResponse)
+	err := c.cc.Invoke(ctx, User_ImproveUserInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) VideoWorksList(ctx context.Context, in *VideoWorksListRequest, opts ...grpc.CallOption) (*VideoWorksListResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VideoWorksListResponse)
+	err := c.cc.Invoke(ctx, User_VideoWorksList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UserLikes(ctx context.Context, in *UserLikesRequest, opts ...grpc.CallOption) (*UserLikesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserLikesResponse)
+	err := c.cc.Invoke(ctx, User_UserLikes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) CancelUserLikes(ctx context.Context, in *CancelUserLikesRequest, opts ...grpc.CallOption) (*CancelUserLikesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CancelUserLikesResponse)
+	err := c.cc.Invoke(ctx, User_CancelUserLikes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) AddVideoWorks(ctx context.Context, in *AddVideoWorksRequest, opts ...grpc.CallOption) (*AddVideoWorksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddVideoWorksResponse)
+	err := c.cc.Invoke(ctx, User_AddVideoWorks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) CreateVideoWorksComment(ctx context.Context, in *CreateVideoWorksCommentRequest, opts ...grpc.CallOption) (*CreateVideoWorksCommentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateVideoWorksCommentResponse)
+	err := c.cc.Invoke(ctx, User_CreateVideoWorksComment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
 type UserServer interface {
-	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	Ping(context.Context, *Request) (*Response, error)
 	Sendsms(context.Context, *SendsmsRequest) (*SendsmsResponse, error)
+	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
+	UserCenter(context.Context, *UserCenterRequest) (*UserCenterResponse, error)
+	ImproveUserInfo(context.Context, *ImproveUserInfoRequest) (*ImproveUserInfoResponse, error)
+	VideoWorksList(context.Context, *VideoWorksListRequest) (*VideoWorksListResponse, error)
+	UserLikes(context.Context, *UserLikesRequest) (*UserLikesResponse, error)
+	CancelUserLikes(context.Context, *CancelUserLikesRequest) (*CancelUserLikesResponse, error)
+	AddVideoWorks(context.Context, *AddVideoWorksRequest) (*AddVideoWorksResponse, error)
+	CreateVideoWorksComment(context.Context, *CreateVideoWorksCommentRequest) (*CreateVideoWorksCommentResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -85,14 +176,35 @@ type UserServer interface {
 type UnimplementedUserServer struct {
 }
 
-func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
-}
 func (UnimplementedUserServer) Ping(context.Context, *Request) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
 }
 func (UnimplementedUserServer) Sendsms(context.Context, *SendsmsRequest) (*SendsmsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Sendsms not implemented")
+}
+func (UnimplementedUserServer) UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
+}
+func (UnimplementedUserServer) UserCenter(context.Context, *UserCenterRequest) (*UserCenterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserCenter not implemented")
+}
+func (UnimplementedUserServer) ImproveUserInfo(context.Context, *ImproveUserInfoRequest) (*ImproveUserInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ImproveUserInfo not implemented")
+}
+func (UnimplementedUserServer) VideoWorksList(context.Context, *VideoWorksListRequest) (*VideoWorksListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VideoWorksList not implemented")
+}
+func (UnimplementedUserServer) UserLikes(context.Context, *UserLikesRequest) (*UserLikesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserLikes not implemented")
+}
+func (UnimplementedUserServer) CancelUserLikes(context.Context, *CancelUserLikesRequest) (*CancelUserLikesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelUserLikes not implemented")
+}
+func (UnimplementedUserServer) AddVideoWorks(context.Context, *AddVideoWorksRequest) (*AddVideoWorksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddVideoWorks not implemented")
+}
+func (UnimplementedUserServer) CreateVideoWorksComment(context.Context, *CreateVideoWorksCommentRequest) (*CreateVideoWorksCommentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateVideoWorksComment not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -105,24 +217,6 @@ type UnsafeUserServer interface {
 
 func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
 	s.RegisterService(&User_ServiceDesc, srv)
-}
-
-func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).Login(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_Login_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).Login(ctx, req.(*LoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _User_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -161,6 +255,150 @@ func _User_Sendsms_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UserLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UserLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UserLogin(ctx, req.(*UserLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UserCenter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserCenterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UserCenter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UserCenter_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UserCenter(ctx, req.(*UserCenterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ImproveUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ImproveUserInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ImproveUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ImproveUserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ImproveUserInfo(ctx, req.(*ImproveUserInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_VideoWorksList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VideoWorksListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).VideoWorksList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_VideoWorksList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).VideoWorksList(ctx, req.(*VideoWorksListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UserLikes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserLikesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UserLikes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UserLikes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UserLikes(ctx, req.(*UserLikesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_CancelUserLikes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelUserLikesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).CancelUserLikes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_CancelUserLikes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).CancelUserLikes(ctx, req.(*CancelUserLikesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_AddVideoWorks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddVideoWorksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).AddVideoWorks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_AddVideoWorks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).AddVideoWorks(ctx, req.(*AddVideoWorksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_CreateVideoWorksComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateVideoWorksCommentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).CreateVideoWorksComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_CreateVideoWorksComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).CreateVideoWorksComment(ctx, req.(*CreateVideoWorksCommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -169,16 +407,44 @@ var User_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Login",
-			Handler:    _User_Login_Handler,
-		},
-		{
 			MethodName: "Ping",
 			Handler:    _User_Ping_Handler,
 		},
 		{
 			MethodName: "Sendsms",
 			Handler:    _User_Sendsms_Handler,
+		},
+		{
+			MethodName: "UserLogin",
+			Handler:    _User_UserLogin_Handler,
+		},
+		{
+			MethodName: "UserCenter",
+			Handler:    _User_UserCenter_Handler,
+		},
+		{
+			MethodName: "ImproveUserInfo",
+			Handler:    _User_ImproveUserInfo_Handler,
+		},
+		{
+			MethodName: "VideoWorksList",
+			Handler:    _User_VideoWorksList_Handler,
+		},
+		{
+			MethodName: "UserLikes",
+			Handler:    _User_UserLikes_Handler,
+		},
+		{
+			MethodName: "CancelUserLikes",
+			Handler:    _User_CancelUserLikes_Handler,
+		},
+		{
+			MethodName: "AddVideoWorks",
+			Handler:    _User_AddVideoWorks_Handler,
+		},
+		{
+			MethodName: "CreateVideoWorksComment",
+			Handler:    _User_CreateVideoWorksComment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
