@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	User_Login_FullMethodName   = "/user.User/Login"
-	User_Ping_FullMethodName    = "/user.User/Ping"
-	User_Sendsms_FullMethodName = "/user.User/Sendsms"
+	User_Login_FullMethodName         = "/user.User/Login"
+	User_Sendsms_FullMethodName       = "/user.User/Sendsms"
+	User_UserHomepage_FullMethodName  = "/user.User/UserHomepage"
+	User_UserViewWorks_FullMethodName = "/user.User/UserViewWorks"
 )
 
 // UserClient is the client API for User service.
@@ -29,8 +30,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 	Sendsms(ctx context.Context, in *SendsmsRequest, opts ...grpc.CallOption) (*SendsmsResponse, error)
+	UserHomepage(ctx context.Context, in *UserHomepageRequest, opts ...grpc.CallOption) (*UserHomepageResponse, error)
+	UserViewWorks(ctx context.Context, in *UserViewWorksRequest, opts ...grpc.CallOption) (*UserViewWorksResponse, error)
 }
 
 type userClient struct {
@@ -51,20 +53,30 @@ func (c *userClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.C
 	return out, nil
 }
 
-func (c *userClient) Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+func (c *userClient) Sendsms(ctx context.Context, in *SendsmsRequest, opts ...grpc.CallOption) (*SendsmsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Response)
-	err := c.cc.Invoke(ctx, User_Ping_FullMethodName, in, out, cOpts...)
+	out := new(SendsmsResponse)
+	err := c.cc.Invoke(ctx, User_Sendsms_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) Sendsms(ctx context.Context, in *SendsmsRequest, opts ...grpc.CallOption) (*SendsmsResponse, error) {
+func (c *userClient) UserHomepage(ctx context.Context, in *UserHomepageRequest, opts ...grpc.CallOption) (*UserHomepageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SendsmsResponse)
-	err := c.cc.Invoke(ctx, User_Sendsms_FullMethodName, in, out, cOpts...)
+	out := new(UserHomepageResponse)
+	err := c.cc.Invoke(ctx, User_UserHomepage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UserViewWorks(ctx context.Context, in *UserViewWorksRequest, opts ...grpc.CallOption) (*UserViewWorksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserViewWorksResponse)
+	err := c.cc.Invoke(ctx, User_UserViewWorks_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,8 +88,9 @@ func (c *userClient) Sendsms(ctx context.Context, in *SendsmsRequest, opts ...gr
 // for forward compatibility
 type UserServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
-	Ping(context.Context, *Request) (*Response, error)
 	Sendsms(context.Context, *SendsmsRequest) (*SendsmsResponse, error)
+	UserHomepage(context.Context, *UserHomepageRequest) (*UserHomepageResponse, error)
+	UserViewWorks(context.Context, *UserViewWorksRequest) (*UserViewWorksResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -88,11 +101,14 @@ type UnimplementedUserServer struct {
 func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedUserServer) Ping(context.Context, *Request) (*Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
-}
 func (UnimplementedUserServer) Sendsms(context.Context, *SendsmsRequest) (*SendsmsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Sendsms not implemented")
+}
+func (UnimplementedUserServer) UserHomepage(context.Context, *UserHomepageRequest) (*UserHomepageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserHomepage not implemented")
+}
+func (UnimplementedUserServer) UserViewWorks(context.Context, *UserViewWorksRequest) (*UserViewWorksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserViewWorks not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -125,24 +141,6 @@ func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Request)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).Ping(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_Ping_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).Ping(ctx, req.(*Request))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _User_Sendsms_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendsmsRequest)
 	if err := dec(in); err != nil {
@@ -161,6 +159,42 @@ func _User_Sendsms_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_UserHomepage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserHomepageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UserHomepage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UserHomepage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UserHomepage(ctx, req.(*UserHomepageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UserViewWorks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserViewWorksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UserViewWorks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UserViewWorks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UserViewWorks(ctx, req.(*UserViewWorksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -173,12 +207,16 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_Login_Handler,
 		},
 		{
-			MethodName: "Ping",
-			Handler:    _User_Ping_Handler,
-		},
-		{
 			MethodName: "Sendsms",
 			Handler:    _User_Sendsms_Handler,
+		},
+		{
+			MethodName: "UserHomepage",
+			Handler:    _User_UserHomepage_Handler,
+		},
+		{
+			MethodName: "UserViewWorks",
+			Handler:    _User_UserViewWorks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

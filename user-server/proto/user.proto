@@ -3,34 +3,75 @@ syntax = "proto3";
 package user;
 option go_package="/";
 
-message Request {
-  string ping = 1;
-}
 
-message Response {
-  string pong = 1;
-}
-//短信
+//短信发送
 message SendsmsRequest {
-  string mobile = 1;
-  string score =2;
+  string Mobile = 1;
+  string Score =2;
 }
-
 message SendsmsResponse {
-
+  string Greet =1;
+  int64 Code =2;
 }
-//登录功能
+//登录注册一体化
 message LoginRequest {
-  string mobile = 1;
-  string password =2;
-  string sendsms =3;
+  string Mobile = 1;
+  string Sendsms =2;
 }
-
 message LoginResponse {
   int64 Id =1;
+  string Greet =2;
+}
+
+// 用户首页
+message UserHomepageRequest {
+  int64 Id=1;
+}
+message UserHomepageResponse{
+  repeated UserItem list =1;
+}
+message UserItem{
+  string Name =1;
+  string NickName =2;
+  string UserCode =3;
+  string Signature =4;
+  string Sex =5;
+  string IpAddress =6;
+  string Constellation =7;
+  float AttendCount =8;
+  float FansCount =9;
+  float ZanCount =10;
+  int64 AvatorFileId =11;
+  string AuthriryInfo =12;
+  string RealNameAuth =13;
+}
+
+//查看其他用户的作品
+message UserViewWorksRequest{
+  int64 UserId =1;
+}
+message UserViewWorksResponse{
+  repeated VideoWorksItem list =1;
+}
+message VideoWorksItem{
+  string Title =1;
+  string Desc =2;
+  int64 MusicId =3;
+  string WorkType =4;
+  string CheckStatus =5;
+  int64 CheckUser =6;
+  string IpAddress =7;
+  string WorkPermission =8;
+  int64 LikeCount =9;
+  int64 CommentCount =10;
+  int64 ShareCount =11;
+  int64 CollectCount =12;
+  int64 BrowseCount =13;
+  int64 TopicId =14;
 }
 service User {
-  rpc Login(LoginRequest) returns(LoginResponse);
-  rpc Ping(Request) returns(Response);
-  rpc Sendsms(SendsmsRequest) returns(SendsmsResponse);
+  rpc Login(LoginRequest) returns(LoginResponse); //TODO 登录注册一体化
+  rpc Sendsms(SendsmsRequest) returns(SendsmsResponse);  //TODO 短信验证码
+  rpc UserHomepage(UserHomepageRequest) returns(UserHomepageResponse);  //TODO 用户首页
+  rpc UserViewWorks(UserViewWorksRequest) returns(UserViewWorksResponse);  //TODO 查看其他用户作品
 }

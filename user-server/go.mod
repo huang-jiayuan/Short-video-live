@@ -4,6 +4,7 @@ go 1.24.3
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
+	github.com/pkg/errors v0.9.1
 	github.com/spf13/viper v1.20.1
 	google.golang.org/grpc v1.72.2
 	google.golang.org/protobuf v1.36.5
